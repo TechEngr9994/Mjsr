@@ -225,6 +225,9 @@ footer { color: #64748b; }
 /* 500 kVA generator visual status */
 .generator-scene { background:linear-gradient(#e8eef5 0%,#dbe5ee 72%,#cbd5e1 73%,#b7c6d4 100%); }
 .generator-scene.active { border:2px solid #22c55e; box-shadow:0 0 14px rgba(34,197,94,.35); }
+.generator-scene .generator-fan-spin { transform-box:view-box; transform-origin:110px 83px; }
+.generator-scene.active .generator-fan-spin { animation:fan-spin .32s linear infinite; }
+.generator-scene.active::after { content:"GENERATOR RUNNING  •  COOLING FAN ROTATING"; }
 .generator-scene.active::after { content:"GENERATOR RUNNING  •  ENGINE ON"; position:absolute; left:7px; right:7px; bottom:5px; padding:5px 3px; border-radius:5px; background:rgba(5,46,22,.92); color:#bbf7d0; font-size:10px; font-weight:800; text-align:center; }
 </style>
 </head>
@@ -304,7 +307,7 @@ footer { color: #64748b; }
 <!-- SNOWMAKING OPERATIONS -->
 <div class="panel" id="operationsPanel">
   <h2>Snowmaking Operations | Control Desk</h2>
-  <div class="subtitle" style="margin:-8px 0 16px">Generator-first interlock • Five equipment stations</div>
+  <div class="subtitle" style="margin:-8px 0 16px">Generator supplies Pump House + all Snow Guns • Five equipment stations</div>
   <div style="display:flex;gap:9px;flex-wrap:wrap;margin:0 0 16px;align-items:center">
     <input id="opsAccessCode" type="password" autocomplete="current-password" placeholder="Enter authorised team access code" style="background:#0b1422;color:#fff;border:1px solid #40516a;border-radius:7px;padding:11px;min-width:240px">
     <button type="button" class="scada-btn" style="background:#2563eb" onclick="unlockOperations()">UNLOCK OPERATIONS</button>
@@ -330,6 +333,14 @@ footer { color: #64748b; }
           <path d="M50 47 L64 27 H237 L250 47Z" fill="url(#genTop)" stroke="#334155" stroke-width="2"/>
           <rect x="57" y="57" width="106" height="53" rx="3" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/>
           <g stroke="#64748b" stroke-width="3"><path d="M66 63 V103 M75 63 V103 M84 63 V103 M93 63 V103 M102 63 V103 M111 63 V103 M120 63 V103 M129 63 V103 M138 63 V103 M147 63 V103"/></g>
+          <circle cx="110" cy="83" r="25" fill="#0f172a" stroke="#cbd5e1" stroke-width="2"/>
+          <g class="generator-fan-spin">
+            <path d="M110 83 C98 76 96 65 104 61 C113 57 117 71 110 83Z" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+            <path d="M110 83 C117 71 128 69 132 77 C136 86 122 90 110 83Z" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+            <path d="M110 83 C122 90 124 101 116 105 C107 109 103 95 110 83Z" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+            <path d="M110 83 C103 95 92 97 88 89 C84 80 98 76 110 83Z" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+          </g>
+          <circle cx="110" cy="83" r="5" fill="#f8fafc" stroke="#334155" stroke-width="2"/>
           <rect x="174" y="57" width="69" height="53" rx="4" fill="#cbd5e1" stroke="#334155" stroke-width="2"/>
           <rect x="183" y="65" width="50" height="17" rx="2" fill="#0f172a"/>
           <text x="208" y="77" fill="#86efac" font-size="9" text-anchor="middle" font-family="Arial" font-weight="bold">500 kVA</text>
@@ -793,7 +804,7 @@ function recordOperation(index, action) {
   if (!opsUnlocked || !getOpsAccessCode()) { setOpsMessage('Unlock the operations panel with your team access code first.','error'); return; }
   if (!time) { setOpsMessage('Enter the event time first.','error'); return; }
   if (action === 'START' && state === 'RUNNING') { setOpsMessage(EQUIPMENT[index] + ' is already RUNNING.','error'); return; }
-  if (index === 1 && action === 'START' && opsState[0].status !== 'RUNNING') { setOpsMessage('Pump House cannot start. Start Generator 500 kVA first.','error'); return; }
+  if (index > 0 && action === 'START' && opsState[0].status !== 'RUNNING') { setOpsMessage('Pump House cannot start. Start Generator 500 kVA first.','error'); return; }
   if (action === 'STOP' && state !== 'RUNNING') { setOpsMessage(EQUIPMENT[index] + ' is not RUNNING. STOP was not recorded.','error'); return; }
   if (!OPS_URL || OPS_URL.indexOf('PASTE_') === 0) {
     setOpsMessage('The operations panel is ready, but the separate Google Sheets logging endpoint has not been deployed. No event was saved.','error');
@@ -822,7 +833,7 @@ function renderOperation(i) {
   const el = document.getElementById('state'+i);
   el.className = 'scada-state ' + (s.status === 'RUNNING' ? 'running' : s.status === 'FAULT' ? 'fault' : 'stopped');
   el.lastElementChild.textContent = s.status;
-  document.getElementById('start'+i).disabled = !opsUnlocked || s.status === 'RUNNING' || (i === 1 && opsState[0].status !== 'RUNNING');
+  document.getElementById('start'+i).disabled = !opsUnlocked || s.status === 'RUNNING' || (i > 0 && opsState[0].status !== 'RUNNING');
   document.getElementById('stop'+i).disabled = !opsUnlocked || s.status !== 'RUNNING';
   document.getElementById('lastStart'+i).textContent = s.lastStart;
   document.getElementById('lastStop'+i).textContent = s.lastStop;
