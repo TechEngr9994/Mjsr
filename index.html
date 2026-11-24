@@ -776,7 +776,7 @@ function drawChart(rows) {
 
 /* SNOWMAKING EVENT LOGGER
    Set this to the deployed URL of the separate Snowmaking Operations Apps Script. */
-const OPS_URL = 'https://script.google.com/macros/s/AKfycbylrKIm_wx38K_Eu_-Q_H5sr_VaxfuJHCjZ9Ss7-PgOBsqAcUclP60B-UOjDKocOPl-Pw/exec';
+const OPS_URL = 'https://script.google.com/macros/s/AKfycbzoC1rxKMx31oJxcUscEHezyAUqbR5045A-ix6qW6ml0RIpMA1hoz5M3qMwTAIPyy4nKA/exec';
 const EQUIPMENT = ['Generator 500 kVA','Pump House','Snow Gun 1','Snow Gun 2','Snow Gun 3'];
 const opsState = EQUIPMENT.map(() => ({status:'STOPPED',lastStart:'—',lastStop:'—',tonight:0,season:0}));
 let opsUnlocked = false;
