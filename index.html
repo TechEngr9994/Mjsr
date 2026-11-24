@@ -837,9 +837,13 @@ function renderOperation(i) {
   document.getElementById('stop'+i).disabled = !opsUnlocked || s.status !== 'RUNNING';
   document.getElementById('lastStart'+i).textContent = s.lastStart;
   document.getElementById('lastStop'+i).textContent = s.lastStop;
-  document.getElementById('tonight'+i).textContent = Number(s.tonight || 0).toFixed(2) + ' h';
-  document.getElementById('season'+i).textContent = Number(s.season || 0).toFixed(2) + ' h';
-}
+  const formatRuntime = value => {
+  const totalMinutes = Math.round(Number(value || 0) * 60);
+  return Math.floor(totalMinutes / 60) + 'h ' +
+         String(totalMinutes % 60).padStart(2, '0') + 'm';
+};
+document.getElementById('tonight'+i).textContent = formatRuntime(s.tonight);
+document.getElementById('season'+i).textContent = formatRuntime(s.season);
 
 
 function renderOperationsHistory(events) {
