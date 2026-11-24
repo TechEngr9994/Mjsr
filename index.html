@@ -180,6 +180,47 @@ footer {
 .ops-history th { color:#aab7ca; }
 .ops-history-empty { color:#94a3b8; padding:12px 0; font-size:13px; }
 
+
+/* PROFESSIONAL LIGHT THEME */
+body {
+  background: #f4f6f9;
+  color: #1f2937;
+}
+.subtitle { color: #64748b; }
+.live { color: #15803d; }
+.card, .panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.045);
+}
+.card h3, th { color: #64748b; }
+.panel h2 { color: #172b4d; }
+.station-panel > h3 { color: #334155; }
+.good { color: #15803d; }
+.cold { color: #b45309; }
+.error { color: #dc2626; }
+.neutral { color: #64748b; }
+th, td { border-bottom-color: #e2e8f0; }
+footer { color: #64748b; }
+.scada-unit {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.04);
+}
+.scada-time, #opsAccessCode {
+  background: #f8fafc !important;
+  color: #1f2937 !important;
+  border-color: #cbd5e1 !important;
+  color-scheme: light;
+}
+.scada-meta {
+  border-top-color: #e2e8f0;
+  color: #64748b;
+}
+.scada-meta strong { color: #1f2937; }
+.scada-note, .ops-history-empty { color: #64748b; }
+.ops-history th, .ops-history td { border-bottom-color: #e2e8f0; }
+
 </style>
 </head>
 
@@ -666,10 +707,10 @@ function drawChart(rows) {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        x: { ticks: { color: '#aab7ca', maxTicksLimit: 8 }, grid: { color: '#344258' } },
-        y: { ticks: { color: '#aab7ca' }, grid: { color: '#344258' } }
+        x: { ticks: { color: '#64748b', maxTicksLimit: 8 }, grid: { color: '#e2e8f0' } },
+        y: { ticks: { color: '#64748b' }, grid: { color: '#e2e8f0' } }
       },
-      plugins: { legend: { labels: { color: '#ffffff' } } }
+      plugins: { legend: { labels: { color: '#334155' } } }
     }
   });
 }
