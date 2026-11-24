@@ -221,6 +221,11 @@ footer { color: #64748b; }
 .scada-note, .ops-history-empty { color: #64748b; }
 .ops-history th, .ops-history td { border-bottom-color: #e2e8f0; }
 
+
+/* 500 kVA generator visual status */
+.generator-scene { background:linear-gradient(#e8eef5 0%,#dbe5ee 72%,#cbd5e1 73%,#b7c6d4 100%); }
+.generator-scene.active { border:2px solid #22c55e; box-shadow:0 0 14px rgba(34,197,94,.35); }
+.generator-scene.active::after { content:"GENERATOR RUNNING  •  ENGINE ON"; position:absolute; left:7px; right:7px; bottom:5px; padding:5px 3px; border-radius:5px; background:rgba(5,46,22,.92); color:#bbf7d0; font-size:10px; font-weight:800; text-align:center; }
 </style>
 </head>
 
@@ -299,19 +304,61 @@ footer { color: #64748b; }
 <!-- SNOWMAKING OPERATIONS -->
 <div class="panel" id="operationsPanel">
   <h2>Snowmaking Operations | Control Desk</h2>
-  <div class="subtitle" style="margin:-8px 0 16px">Manual event logging • Four independent equipment stations</div>
+  <div class="subtitle" style="margin:-8px 0 16px">Generator-first interlock • Five equipment stations</div>
   <div style="display:flex;gap:9px;flex-wrap:wrap;margin:0 0 16px;align-items:center">
     <input id="opsAccessCode" type="password" autocomplete="current-password" placeholder="Enter authorised team access code" style="background:#0b1422;color:#fff;border:1px solid #40516a;border-radius:7px;padding:11px;min-width:240px">
     <button type="button" class="scada-btn" style="background:#2563eb" onclick="unlockOperations()">UNLOCK OPERATIONS</button>
   </div>
   <div class="scada-grid" id="scadaGrid">
     
+    
     <section class="scada-unit" data-unit="0">
       <div class="scada-head">
-        <div class="scada-name">Pump House</div>
+        <div class="scada-name">Generator 500 kVA</div>
         <div class="scada-state stopped" id="state0"><span class="scada-lamp"></span><span>STOPPED</span></div>
       </div>
-      <div class="gun-scene pump-scene" id="gunScene0" role="img" aria-label="Pump house stopped">
+      <div class="gun-scene generator-scene" id="gunScene0" role="img" aria-label="500 kVA diesel generator stopped">
+        <svg viewBox="0 0 300 160" aria-hidden="true">
+          <defs>
+            <linearGradient id="genBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#64748b"/><stop offset="1" stop-color="#263445"/></linearGradient>
+            <linearGradient id="genTop" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#475569"/></linearGradient>
+          </defs>
+          <path d="M0 132 H300 V160 H0Z" fill="#dbe5ee"/>
+          <ellipse cx="150" cy="134" rx="125" ry="9" fill="#64748b" opacity=".25"/>
+          <path d="M36 118 H265 L278 130 H23Z" fill="#334155" stroke="#0f172a" stroke-width="2"/>
+          <rect x="42" y="46" width="216" height="76" rx="8" fill="url(#genBody)" stroke="#1e293b" stroke-width="3"/>
+          <path d="M50 47 L64 27 H237 L250 47Z" fill="url(#genTop)" stroke="#334155" stroke-width="2"/>
+          <rect x="57" y="57" width="106" height="53" rx="3" fill="#1e293b" stroke="#94a3b8" stroke-width="2"/>
+          <g stroke="#64748b" stroke-width="3"><path d="M66 63 V103 M75 63 V103 M84 63 V103 M93 63 V103 M102 63 V103 M111 63 V103 M120 63 V103 M129 63 V103 M138 63 V103 M147 63 V103"/></g>
+          <rect x="174" y="57" width="69" height="53" rx="4" fill="#cbd5e1" stroke="#334155" stroke-width="2"/>
+          <rect x="183" y="65" width="50" height="17" rx="2" fill="#0f172a"/>
+          <text x="208" y="77" fill="#86efac" font-size="9" text-anchor="middle" font-family="Arial" font-weight="bold">500 kVA</text>
+          <circle cx="190" cy="94" r="4" fill="#22c55e"/><circle cx="205" cy="94" r="4" fill="#f59e0b"/>
+          <path d="M218 27 V14 H235 V27" fill="none" stroke="#475569" stroke-width="7" stroke-linejoin="round"/>
+          <path d="M214 14 H239" stroke="#1e293b" stroke-width="5"/>
+          <rect x="28" y="119" width="244" height="7" rx="2" fill="#0f172a"/>
+          <text x="150" y="143" fill="#334155" font-size="9" text-anchor="middle" font-family="Arial" font-weight="bold">DIESEL GENERATOR SET</text>
+        </svg>
+      </div>
+      <label for="time0" style="font-size:12px;color:#64748b">ENTER EVENT TIME</label>
+      <input class="scada-time" type="datetime-local" id="time0" aria-label="Generator 500 kVA event time">
+      <div class="scada-actions">
+        <button class="scada-btn scada-start" id="start0" onclick="recordOperation(0,'START')">▶ START</button>
+        <button class="scada-btn scada-stop" id="stop0" onclick="recordOperation(0,'STOP')">■ STOP</button>
+      </div>
+      <div class="scada-meta">
+        Last START: <strong id="lastStart0">—</strong><br>
+        Last STOP: <strong id="lastStop0">—</strong><br>
+        Tonight runtime: <strong id="tonight0">0.00 h</strong><br>
+        Seasonal runtime: <strong id="season0">0.00 h</strong>
+      </div>
+    </section>
+<section class="scada-unit" data-unit="1">
+      <div class="scada-head">
+        <div class="scada-name">Pump House</div>
+        <div class="scada-state stopped" id="state1"><span class="scada-lamp"></span><span>STOPPED</span></div>
+      </div>
+      <div class="gun-scene pump-scene" id="gunScene1" role="img" aria-label="Pump house stopped">
         <svg viewBox="0 0 300 132" aria-hidden="true">
           <defs>
             <linearGradient id="pumpMetal" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#94a3b8"/><stop offset="1" stop-color="#334155"/></linearGradient>
@@ -340,25 +387,25 @@ footer { color: #64748b; }
         </svg>
       </div>
       <label for="time0" style="font-size:12px;color:#aab7ca">ENTER EVENT TIME</label>
-      <input class="scada-time" type="datetime-local" id="time0" aria-label="Pump House event time">
+      <input class="scada-time" type="datetime-local" id="time1" aria-label="Pump House event time">
       <div class="scada-actions">
-        <button class="scada-btn scada-start" id="start0" onclick="recordOperation(0,'START')">▶ START</button>
-        <button class="scada-btn scada-stop" id="stop0" onclick="recordOperation(0,'STOP')">■ STOP</button>
+        <button class="scada-btn scada-start" id="start1" onclick="recordOperation(1,'START')">▶ START</button>
+        <button class="scada-btn scada-stop" id="stop1" onclick="recordOperation(1,'STOP')">■ STOP</button>
       </div>
       <div class="scada-meta">
-        Last START: <strong id="lastStart0">—</strong><br>
-        Last STOP: <strong id="lastStop0">—</strong><br>
-        Tonight runtime: <strong id="tonight0">0.00 h</strong><br>
-        Seasonal runtime: <strong id="season0">0.00 h</strong>
+        Last START: <strong id="lastStart1">—</strong><br>
+        Last STOP: <strong id="lastStop1">—</strong><br>
+        Tonight runtime: <strong id="tonight1">0.00 h</strong><br>
+        Seasonal runtime: <strong id="season1">0.00 h</strong>
       </div>
     </section>
-    <section class="scada-unit" data-unit="1">
+    <section class="scada-unit" data-unit="2">
       <div class="scada-head">
         <div class="scada-name">Snow Gun 1</div>
-        <div class="scada-state stopped" id="state1"><span class="scada-lamp"></span><span>STOPPED</span></div>
+        <div class="scada-state stopped" id="state2"><span class="scada-lamp"></span><span>STOPPED</span></div>
       </div>
 
-      <div class="gun-scene realistic-gun-scene" id="gunScene1" role="img" aria-label="Snow gun 1 stopped">
+      <div class="gun-scene realistic-gun-scene" id="gunScene2" role="img" aria-label="Snow gun 1 stopped">
         <svg viewBox="0 0 300 160" aria-hidden="true">
 <defs>
 <linearGradient id="mmsYellow1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe66d"/><stop offset=".55" stop-color="#f5b900"/><stop offset="1" stop-color="#c78300"/></linearGradient>
@@ -394,25 +441,25 @@ footer { color: #64748b; }
 </svg>
       </div>
       <label for="time1" style="font-size:12px;color:#aab7ca">ENTER EVENT TIME</label>
-      <input class="scada-time" type="datetime-local" id="time1" aria-label="Snow Gun 1 event time">
+      <input class="scada-time" type="datetime-local" id="time2" aria-label="Snow Gun 1 event time">
       <div class="scada-actions">
-        <button class="scada-btn scada-start" id="start1" onclick="recordOperation(1,'START')">▶ START</button>
-        <button class="scada-btn scada-stop" id="stop1" onclick="recordOperation(1,'STOP')">■ STOP</button>
+        <button class="scada-btn scada-start" id="start2" onclick="recordOperation(2,'START')">▶ START</button>
+        <button class="scada-btn scada-stop" id="stop2" onclick="recordOperation(2,'STOP')">■ STOP</button>
       </div>
       <div class="scada-meta">
-        Last START: <strong id="lastStart1">—</strong><br>
-        Last STOP: <strong id="lastStop1">—</strong><br>
-        Tonight runtime: <strong id="tonight1">0.00 h</strong><br>
-        Seasonal runtime: <strong id="season1">0.00 h</strong>
+        Last START: <strong id="lastStart2">—</strong><br>
+        Last STOP: <strong id="lastStop2">—</strong><br>
+        Tonight runtime: <strong id="tonight2">0.00 h</strong><br>
+        Seasonal runtime: <strong id="season2">0.00 h</strong>
       </div>
     </section>
-    <section class="scada-unit" data-unit="2">
+    <section class="scada-unit" data-unit="3">
       <div class="scada-head">
         <div class="scada-name">Snow Gun 2</div>
-        <div class="scada-state stopped" id="state2"><span class="scada-lamp"></span><span>STOPPED</span></div>
+        <div class="scada-state stopped" id="state3"><span class="scada-lamp"></span><span>STOPPED</span></div>
       </div>
 
-      <div class="gun-scene realistic-gun-scene" id="gunScene2" role="img" aria-label="Snow gun 2 stopped">
+      <div class="gun-scene realistic-gun-scene" id="gunScene3" role="img" aria-label="Snow gun 2 stopped">
         <svg viewBox="0 0 300 160" aria-hidden="true">
 <defs>
 <linearGradient id="mmsYellow2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe66d"/><stop offset=".55" stop-color="#f5b900"/><stop offset="1" stop-color="#c78300"/></linearGradient>
@@ -448,25 +495,25 @@ footer { color: #64748b; }
 </svg>
       </div>
       <label for="time2" style="font-size:12px;color:#aab7ca">ENTER EVENT TIME</label>
-      <input class="scada-time" type="datetime-local" id="time2" aria-label="Snow Gun 2 event time">
+      <input class="scada-time" type="datetime-local" id="time3" aria-label="Snow Gun 2 event time">
       <div class="scada-actions">
-        <button class="scada-btn scada-start" id="start2" onclick="recordOperation(2,'START')">▶ START</button>
-        <button class="scada-btn scada-stop" id="stop2" onclick="recordOperation(2,'STOP')">■ STOP</button>
+        <button class="scada-btn scada-start" id="start3" onclick="recordOperation(3,'START')">▶ START</button>
+        <button class="scada-btn scada-stop" id="stop3" onclick="recordOperation(3,'STOP')">■ STOP</button>
       </div>
       <div class="scada-meta">
-        Last START: <strong id="lastStart2">—</strong><br>
-        Last STOP: <strong id="lastStop2">—</strong><br>
-        Tonight runtime: <strong id="tonight2">0.00 h</strong><br>
-        Seasonal runtime: <strong id="season2">0.00 h</strong>
+        Last START: <strong id="lastStart3">—</strong><br>
+        Last STOP: <strong id="lastStop3">—</strong><br>
+        Tonight runtime: <strong id="tonight3">0.00 h</strong><br>
+        Seasonal runtime: <strong id="season3">0.00 h</strong>
       </div>
     </section>
-    <section class="scada-unit" data-unit="3">
+    <section class="scada-unit" data-unit="4">
       <div class="scada-head">
         <div class="scada-name">Snow Gun 3</div>
-        <div class="scada-state stopped" id="state3"><span class="scada-lamp"></span><span>STOPPED</span></div>
+        <div class="scada-state stopped" id="state4"><span class="scada-lamp"></span><span>STOPPED</span></div>
       </div>
 
-      <div class="gun-scene realistic-gun-scene" id="gunScene3" role="img" aria-label="Snow gun 3 stopped">
+      <div class="gun-scene realistic-gun-scene" id="gunScene4" role="img" aria-label="Snow gun 3 stopped">
         <svg viewBox="0 0 300 160" aria-hidden="true">
 <defs>
 <linearGradient id="mmsYellow3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe66d"/><stop offset=".55" stop-color="#f5b900"/><stop offset="1" stop-color="#c78300"/></linearGradient>
@@ -502,16 +549,16 @@ footer { color: #64748b; }
 </svg>
       </div>
       <label for="time3" style="font-size:12px;color:#aab7ca">ENTER EVENT TIME</label>
-      <input class="scada-time" type="datetime-local" id="time3" aria-label="Snow Gun 3 event time">
+      <input class="scada-time" type="datetime-local" id="time4" aria-label="Snow Gun 3 event time">
       <div class="scada-actions">
-        <button class="scada-btn scada-start" id="start3" onclick="recordOperation(3,'START')">▶ START</button>
-        <button class="scada-btn scada-stop" id="stop3" onclick="recordOperation(3,'STOP')">■ STOP</button>
+        <button class="scada-btn scada-start" id="start4" onclick="recordOperation(4,'START')">▶ START</button>
+        <button class="scada-btn scada-stop" id="stop4" onclick="recordOperation(4,'STOP')">■ STOP</button>
       </div>
       <div class="scada-meta">
-        Last START: <strong id="lastStart3">—</strong><br>
-        Last STOP: <strong id="lastStop3">—</strong><br>
-        Tonight runtime: <strong id="tonight3">0.00 h</strong><br>
-        Seasonal runtime: <strong id="season3">0.00 h</strong>
+        Last START: <strong id="lastStart4">—</strong><br>
+        Last STOP: <strong id="lastStop4">—</strong><br>
+        Tonight runtime: <strong id="tonight4">0.00 h</strong><br>
+        Seasonal runtime: <strong id="season4">0.00 h</strong>
       </div>
     </section>
   </div>
@@ -719,7 +766,7 @@ function drawChart(rows) {
 /* SNOWMAKING EVENT LOGGER
    Set this to the deployed URL of the separate Snowmaking Operations Apps Script. */
 const OPS_URL = 'https://script.google.com/macros/s/AKfycbylrKIm_wx38K_Eu_-Q_H5sr_VaxfuJHCjZ9Ss7-PgOBsqAcUclP60B-UOjDKocOPl-Pw/exec';
-const EQUIPMENT = ['Pump House','Snow Gun 1','Snow Gun 2','Snow Gun 3'];
+const EQUIPMENT = ['Generator 500 kVA','Pump House','Snow Gun 1','Snow Gun 2','Snow Gun 3'];
 const opsState = EQUIPMENT.map(() => ({status:'STOPPED',lastStart:'—',lastStop:'—',tonight:0,season:0}));
 let opsUnlocked = false;
 let opsStateTimeout = null;
@@ -746,6 +793,7 @@ function recordOperation(index, action) {
   if (!opsUnlocked || !getOpsAccessCode()) { setOpsMessage('Unlock the operations panel with your team access code first.','error'); return; }
   if (!time) { setOpsMessage('Enter the event time first.','error'); return; }
   if (action === 'START' && state === 'RUNNING') { setOpsMessage(EQUIPMENT[index] + ' is already RUNNING.','error'); return; }
+  if (index === 1 && action === 'START' && opsState[0].status !== 'RUNNING') { setOpsMessage('Pump House cannot start. Start Generator 500 kVA first.','error'); return; }
   if (action === 'STOP' && state !== 'RUNNING') { setOpsMessage(EQUIPMENT[index] + ' is not RUNNING. STOP was not recorded.','error'); return; }
   if (!OPS_URL || OPS_URL.indexOf('PASTE_') === 0) {
     setOpsMessage('The operations panel is ready, but the separate Google Sheets logging endpoint has not been deployed. No event was saved.','error');
@@ -769,12 +817,12 @@ function renderOperation(i) {
   if (scene) {
     const active = s.status === 'RUNNING';
     scene.classList.toggle('active',active);
-    scene.setAttribute('aria-label', active ? 'Snow gun rotating and producing a visual snow stream' : 'Snow gun stopped');
+    scene.setAttribute('aria-label', active ? (i === 0 ? '500 kVA diesel generator running' : i === 1 ? 'Pump House running' : 'Snow gun rotating and producing a visual snow stream') : (i === 0 ? '500 kVA diesel generator stopped' : i === 1 ? 'Pump House stopped' : 'Snow gun stopped'));
   }
   const el = document.getElementById('state'+i);
   el.className = 'scada-state ' + (s.status === 'RUNNING' ? 'running' : s.status === 'FAULT' ? 'fault' : 'stopped');
   el.lastElementChild.textContent = s.status;
-  document.getElementById('start'+i).disabled = !opsUnlocked || s.status === 'RUNNING';
+  document.getElementById('start'+i).disabled = !opsUnlocked || s.status === 'RUNNING' || (i === 1 && opsState[0].status !== 'RUNNING');
   document.getElementById('stop'+i).disabled = !opsUnlocked || s.status !== 'RUNNING';
   document.getElementById('lastStart'+i).textContent = s.lastStart;
   document.getElementById('lastStop'+i).textContent = s.lastStop;
