@@ -68,6 +68,13 @@ h1 { margin: 0; font-size: 27px; }
 .neutral { color: #9caec4; }
 
 .panel { margin-bottom: 20px; }
+.station-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:15px; margin-bottom:18px; }
+.station-panel { min-width:0; }
+.station-panel > h3 { color:#dbeafe; font-size:15px; margin:0 0 13px; }
+.station-panel .cards { grid-template-columns:repeat(auto-fit,minmax(135px,1fr)); margin-bottom:0; }
+.station-panel .card { padding:14px; }
+.station-panel .value { font-size:25px; }
+
 
 .panel h2 {
   font-size: 18px;
@@ -189,80 +196,64 @@ footer {
   <div class="live">● LIVE MONITORING</div>
 </header>
 
-<!-- LIVE WEATHER -->
+<!-- LIVE WEATHER: TWO STATIONS -->
+<div class="station-grid">
+  <section class="panel station-panel">
+    <h2>Malam Jabba Base</h2>
+    <div class="cards">
+      <div class="card"><h3>WET-BULB</h3><div class="value" id="baseWB">-- <span class="unit">°C</span></div><div class="status neutral" id="baseWBStatus">Waiting for data</div></div>
+      <div class="card"><h3>OUTDOOR TEMPERATURE</h3><div class="value" id="baseTemp">-- <span class="unit">°C</span></div></div>
+      <div class="card"><h3>OUTDOOR HUMIDITY</h3><div class="value" id="baseRH">-- <span class="unit">%</span></div></div>
+    </div>
+  </section>
+  <section class="panel station-panel">
+    <h2>Malam Jabba Top</h2>
+    <div class="cards">
+      <div class="card"><h3>WET-BULB</h3><div class="value" id="topWB">-- <span class="unit">°C</span></div><div class="status neutral" id="topWBStatus">Waiting for data</div></div>
+      <div class="card"><h3>OUTDOOR TEMPERATURE</h3><div class="value" id="topTemp">-- <span class="unit">°C</span></div></div>
+      <div class="card"><h3>OUTDOOR HUMIDITY</h3><div class="value" id="topRH">-- <span class="unit">%</span></div></div>
+    </div>
+  </section>
+</div>
 <div class="cards">
-
-  <div class="card">
-    <h3>CURRENT WET-BULB</h3>
-    <div class="value" id="wb">-- <span class="unit">°C</span></div>
-    <div class="status neutral" id="wbStatus">Waiting for data</div>
-  </div>
-
-  <div class="card">
-    <h3>OUTDOOR TEMPERATURE</h3>
-    <div class="value" id="temp">-- <span class="unit">°C</span></div>
-  </div>
-
-  <div class="card">
-    <h3>OUTDOOR HUMIDITY</h3>
-    <div class="value" id="rh">-- <span class="unit">%</span></div>
-  </div>
-
-  <div class="card">
-    <h3>SNOWMAKING TARGET</h3>
-    <div class="value">-1.7 <span class="unit">°C</span></div>
-    <div class="status neutral">Target wet-bulb temperature</div>
-  </div>
-
+  <div class="card"><h3>SNOWMAKING TARGET</h3><div class="value">-1.7 <span class="unit">°C</span></div><div class="status neutral">Target wet-bulb temperature</div></div>
 </div>
 
 <!-- NIGHTLY ANALYSIS -->
 <div class="panel">
   <h2>Nightly Snowmaking Analysis</h2>
-  <div id="nightDate" class="subtitle" style="margin-bottom:18px">
-    Waiting for nightly data
-  </div>
-
-  <div class="cards">
-
-    <div class="card">
-      <h3>LOWEST WET-BULB</h3>
-      <div class="value" id="nightMin">--</div>
-      <div class="status neutral">Nightly minimum</div>
-    </div>
-
-    <div class="card">
-      <h3>HIGHEST WET-BULB</h3>
-      <div class="value" id="nightMax">--</div>
-      <div class="status neutral">Nightly maximum</div>
-    </div>
-
-    <div class="card">
-      <h3>SNOWMAKING HOURS</h3>
-      <div class="value" id="suitableHours">--</div>
-      <div class="status neutral">At or below -1.7°C</div>
-    </div>
-
-    <div class="card">
-      <h3>BEST SNOWMAKING PERIOD</h3>
-      <div class="value" id="bestPeriod" style="font-size:23px">--</div>
-      <div class="status neutral" id="bestDuration">Continuous suitable period</div>
-    </div>
-
+  <div class="station-grid">
+    <section class="station-panel">
+      <h3>Malam Jabba Base</h3>
+      <div id="baseNightDate" class="subtitle" style="margin-bottom:14px">Waiting for nightly data</div>
+      <div class="cards">
+        <div class="card"><h3>LOWEST WET-BULB</h3><div class="value" id="baseNightMin">--</div></div>
+        <div class="card"><h3>HIGHEST WET-BULB</h3><div class="value" id="baseNightMax">--</div></div>
+        <div class="card"><h3>SNOWMAKING HOURS</h3><div class="value" id="baseSuitableHours">--</div><div class="status neutral">At or below -1.7°C</div></div>
+        <div class="card"><h3>BEST PERIOD</h3><div class="value" id="baseBestPeriod" style="font-size:20px">--</div><div class="status neutral" id="baseBestDuration">Continuous suitable period</div></div>
+      </div>
+    </section>
+    <section class="station-panel">
+      <h3>Malam Jabba Top</h3>
+      <div id="topNightDate" class="subtitle" style="margin-bottom:14px">Waiting for nightly data</div>
+      <div class="cards">
+        <div class="card"><h3>LOWEST WET-BULB</h3><div class="value" id="topNightMin">--</div></div>
+        <div class="card"><h3>HIGHEST WET-BULB</h3><div class="value" id="topNightMax">--</div></div>
+        <div class="card"><h3>SNOWMAKING HOURS</h3><div class="value" id="topSuitableHours">--</div><div class="status neutral">At or below -1.7°C</div></div>
+        <div class="card"><h3>BEST PERIOD</h3><div class="value" id="topBestPeriod" style="font-size:20px">--</div><div class="status neutral" id="topBestDuration">Continuous suitable period</div></div>
+      </div>
+    </section>
   </div>
 </div>
 
 <!-- CURRENT SUITABILITY -->
 <div class="panel">
   <h2>Current Snowmaking Suitability</h2>
-  <div class="value" id="suitability" style="font-size:24px">
-    Waiting for data
-  </div>
-  <div class="subtitle" id="suitabilityDetail">
-    Latest wet-bulb conditions will appear here.
+  <div class="station-grid">
+    <div class="card"><h3>MALAM JABBA BASE</h3><div class="value" id="baseSuitability" style="font-size:22px">Waiting for data</div><div class="subtitle" id="baseSuitabilityDetail">Latest conditions will appear here.</div></div>
+    <div class="card"><h3>MALAM JABBA TOP</h3><div class="value" id="topSuitability" style="font-size:22px">Waiting for data</div><div class="subtitle" id="topSuitabilityDetail">Latest conditions will appear here.</div></div>
   </div>
 </div>
-
 
 <!-- SNOWMAKING OPERATIONS -->
 <div class="panel" id="operationsPanel">
@@ -506,21 +497,11 @@ footer {
 
 <!-- READINGS -->
 <div class="panel">
-  <h2>Recent Weather Readings</h2>
+  <h2>Recent Weather Readings — Both Stations</h2>
   <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Temperature</th>
-          <th>Humidity</th>
-          <th>Wet Bulb</th>
-        </tr>
-      </thead>
-      <tbody id="readings">
-        <tr><td colspan="5">Loading weather readings...</td></tr>
-      </tbody>
+    <table style="min-width:900px">
+      <thead><tr><th>Date</th><th>Time</th><th>Base Temp</th><th>Base RH</th><th>Base WB</th><th>Top Temp</th><th>Top RH</th><th>Top WB</th></tr></thead>
+      <tbody id="readings"><tr><td colspan="8">Loading weather readings...</td></tr></tbody>
     </table>
   </div>
 </div>
@@ -557,110 +538,81 @@ function loadWeather() {
 }
 
 function showWeatherData(data) {
-  if (!data || !data.latest) {
-    document.getElementById('wbStatus').textContent =
-      'No readings available';
+  if (!data || !data.latestBase || !data.latestTop) {
+    ['baseWBStatus','topWBStatus'].forEach(id => {
+      document.getElementById(id).textContent = 'No readings available';
+      document.getElementById(id).className = 'status error';
+    });
     return;
   }
 
-  const latest = data.latest;
-  const wb = Number(latest.wetBulb);
   const threshold = Number(data.threshold);
+  const base = data.latestBase;
+  const top = data.latestTop;
 
-  document.getElementById('wb').innerHTML =
-    wb.toFixed(2) + ' <span class="unit">°C</span>';
+  function renderStation(prefix, reading, night, label) {
+    const wb = Number(reading.wetBulb);
+    document.getElementById(prefix + 'WB').innerHTML =
+      wb.toFixed(2) + ' <span class="unit">°C</span>';
+    document.getElementById(prefix + 'Temp').innerHTML =
+      Number(reading.temperature).toFixed(1) + ' <span class="unit">°C</span>';
+    document.getElementById(prefix + 'RH').innerHTML =
+      Number(reading.humidity).toFixed(0) + ' <span class="unit">%</span>';
 
-  document.getElementById('temp').innerHTML =
-    Number(latest.temperature).toFixed(1) +
-    ' <span class="unit">°C</span>';
+    const suitable = wb <= threshold;
+    const status = document.getElementById(prefix + 'WBStatus');
+    status.textContent = suitable ? 'Snowmaking target reached' : 'Above snowmaking target';
+    status.className = suitable ? 'status good' : 'status error';
 
-  document.getElementById('rh').innerHTML =
-    Number(latest.humidity).toFixed(0) +
-    ' <span class="unit">%</span>';
+    const suitability = document.getElementById(prefix + 'Suitability');
+    suitability.textContent = suitable ? 'SUITABLE FOR SNOWMAKING' : 'NOT SUITABLE FOR SNOWMAKING';
+    suitability.className = suitable ? 'value good' : 'value error';
+    document.getElementById(prefix + 'SuitabilityDetail').textContent =
+      'Wet-bulb: ' + wb.toFixed(2) + '°C | Required: ' + threshold.toFixed(1) + '°C';
 
-  const suitable = wb <= threshold;
-  const status = document.getElementById('wbStatus');
-
-  status.textContent = suitable
-    ? 'Snowmaking target reached'
-    : 'Above snowmaking target';
-
-  status.className = suitable
-    ? 'status good'
-    : 'status error';
-
-  // Current suitability
-  const suitability = document.getElementById('suitability');
-
-  suitability.textContent = suitable
-    ? 'SUITABLE FOR SNOWMAKING'
-    : 'NOT SUITABLE FOR SNOWMAKING';
-
-  suitability.className = suitable
-    ? 'value good'
-    : 'value error';
-
-  document.getElementById('suitabilityDetail').textContent =
-    'Current wet-bulb: ' + wb.toFixed(2) +
-    '°C | Required: ' + threshold.toFixed(1) + '°C';
-
-  // Nightly analysis
-  const night = data.night;
-
-  if (night) {
-    document.getElementById('nightDate').textContent =
-      'Snowmaking night starting: ' + night.date +
-      ' | Readings analysed: ' + night.readings;
-
-    document.getElementById('nightMin').textContent =
-      Number(night.minimumWetBulb).toFixed(2) + '°C';
-
-    document.getElementById('nightMax').textContent =
-      Number(night.maximumWetBulb).toFixed(2) + '°C';
-
-    document.getElementById('suitableHours').textContent =
-      Number(night.suitableHours).toFixed(2) + ' hrs';
-
-    if (night.bestPeriod) {
-      document.getElementById('bestPeriod').textContent =
-        night.bestPeriod.start + ' – ' + night.bestPeriod.end;
-
-      document.getElementById('bestDuration').textContent =
-        night.bestPeriod.hours.toFixed(2) +
-        ' continuous suitable hours';
+    const ids = {
+      date: prefix + 'NightDate', min: prefix + 'NightMin',
+      max: prefix + 'NightMax', hours: prefix + 'SuitableHours',
+      period: prefix + 'BestPeriod', duration: prefix + 'BestDuration'
+    };
+    if (night) {
+      document.getElementById(ids.date).textContent =
+        'Snowmaking night starting: ' + night.date + ' | Readings: ' + night.readings;
+      document.getElementById(ids.min).textContent = Number(night.minimumWetBulb).toFixed(2) + '°C';
+      document.getElementById(ids.max).textContent = Number(night.maximumWetBulb).toFixed(2) + '°C';
+      document.getElementById(ids.hours).textContent = Number(night.suitableHours).toFixed(2) + ' hrs';
+      if (night.bestPeriod) {
+        document.getElementById(ids.period).textContent = night.bestPeriod.start + ' – ' + night.bestPeriod.end;
+        document.getElementById(ids.duration).textContent = Number(night.bestPeriod.hours).toFixed(2) + ' continuous suitable hours';
+      } else {
+        document.getElementById(ids.period).textContent = 'No suitable period';
+        document.getElementById(ids.duration).textContent = 'Target conditions not recorded';
+      }
     } else {
-      document.getElementById('bestPeriod').textContent =
-        'No suitable period';
-
-      document.getElementById('bestDuration').textContent =
-        'Target conditions not recorded';
+      document.getElementById(ids.date).textContent = 'No nightly analysis available';
+      [ids.min,ids.max,ids.hours,ids.period].forEach(id => document.getElementById(id).textContent = '--');
+      document.getElementById(ids.duration).textContent = 'No data';
     }
-  } else {
-    document.getElementById('nightDate').textContent =
-      'No nightly analysis available';
-
-    ['nightMin','nightMax','suitableHours','bestPeriod']
-      .forEach(function(id) {
-        document.getElementById(id).textContent = '--';
-      });
   }
 
-  // Recent readings
-  const recent = data.rows.slice(-30).reverse();
+  renderStation('base', base, data.baseNight, 'Malam Jabba Base');
+  renderStation('top', top, data.topNight, 'Malam Jabba Top');
 
-  document.getElementById('readings').innerHTML =
-    recent.map(function(r) {
-      return '<tr>' +
-        '<td>' + escapeHTML(r.date) + '</td>' +
-        '<td>' + escapeHTML(r.time) + '</td>' +
-        '<td>' + Number(r.temperature).toFixed(1) + ' °C</td>' +
-        '<td>' + Number(r.humidity).toFixed(0) + ' %</td>' +
-        '<td><strong>' + Number(r.wetBulb).toFixed(2) + ' °C</strong></td>' +
-        '</tr>';
-    }).join('');
+  const recent = (data.rows || []).slice(-30).reverse();
+  document.getElementById('readings').innerHTML = recent.map(function(r) {
+    return '<tr>' +
+      '<td>' + escapeHTML(r.date) + '</td>' +
+      '<td>' + escapeHTML(r.time) + '</td>' +
+      '<td>' + Number(r.baseTemperature).toFixed(1) + ' °C</td>' +
+      '<td>' + Number(r.baseHumidity).toFixed(0) + ' %</td>' +
+      '<td><strong>' + Number(r.baseWetBulb).toFixed(2) + ' °C</strong></td>' +
+      '<td>' + Number(r.topTemperature).toFixed(1) + ' °C</td>' +
+      '<td>' + Number(r.topHumidity).toFixed(0) + ' %</td>' +
+      '<td><strong>' + Number(r.topWetBulb).toFixed(2) + ' °C</strong></td>' +
+      '</tr>';
+  }).join('');
 
-  drawChart(data.rows);
-
+  drawChart(data.rows || []);
   document.getElementById('updated').textContent =
     'Last updated: ' + new Date().toLocaleString();
 }
@@ -679,7 +631,6 @@ function escapeHTML(value) {
 
 function drawChart(rows) {
   const data = rows.slice(-100);
-
   if (chart) chart.destroy();
 
   chart = new Chart(document.getElementById('chart'), {
@@ -687,13 +638,21 @@ function drawChart(rows) {
     data: {
       labels: data.map(r => r.date + ' ' + r.time),
       datasets: [{
-        label: 'Wet Bulb °C',
-        data: data.map(r => Number(r.wetBulb)),
+        label: 'Malam Jabba Base Wet Bulb °C',
+        data: data.map(r => Number(r.baseWetBulb)),
         borderColor: '#38bdf8',
-        backgroundColor: 'rgba(56,189,248,0.12)',
-        fill: true,
+        backgroundColor: 'rgba(56,189,248,0.08)',
+        fill: false,
         tension: 0.25,
-        pointRadius: 2
+        pointRadius: 1.5
+      }, {
+        label: 'Malam Jabba Top Wet Bulb °C',
+        data: data.map(r => Number(r.topWetBulb)),
+        borderColor: '#c084fc',
+        backgroundColor: 'rgba(192,132,252,0.08)',
+        fill: false,
+        tension: 0.25,
+        pointRadius: 1.5
       }, {
         label: 'Snowmaking Target -1.7°C',
         data: data.map(() => -1.7),
@@ -707,23 +666,10 @@ function drawChart(rows) {
       responsive: true,
       maintainAspectRatio: false,
       scales: {
-        x: {
-          ticks: {
-            color: '#aab7ca',
-            maxTicksLimit: 8
-          },
-          grid: { color: '#344258' }
-        },
-        y: {
-          ticks: { color: '#aab7ca' },
-          grid: { color: '#344258' }
-        }
+        x: { ticks: { color: '#aab7ca', maxTicksLimit: 8 }, grid: { color: '#344258' } },
+        y: { ticks: { color: '#aab7ca' }, grid: { color: '#344258' } }
       },
-      plugins: {
-        legend: {
-          labels: { color: '#ffffff' }
-        }
-      }
+      plugins: { legend: { labels: { color: '#ffffff' } } }
     }
   });
 }
