@@ -799,7 +799,14 @@ function setDefaultOperationTimes() {
 }
 
 function recordOperation(index, action) {
-  const time = document.getElementById('time' + index).value;
+ const timeInput = document.getElementById('time' + index);
+const now = new Date();
+
+timeInput.value = new Date(
+  now.getTime() - now.getTimezoneOffset() * 60000
+).toISOString().slice(0, 16);
+
+const time = now.toISOString();
   const state = opsState[index].status;
   if (!opsUnlocked || !getOpsAccessCode()) { setOpsMessage('Unlock the operations panel with your team access code first.','error'); return; }
   if (!time) { setOpsMessage('Enter the event time first.','error'); return; }
